@@ -19,6 +19,9 @@ Install dependencies
 
     npm install
 
+Create a `.env` file
+
+    API_URL=http://localhost:8080
 ----------
 
 ## NPM scripts
