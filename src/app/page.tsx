@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from "@/app/context/AuthContext";
+import {User} from "@/type/user.type";
 
 export default function Home() {
     const { userInfo } = useAuth();
-    const [user, setUser] = useState(userInfo());
+    const [user, setUser] = useState<User | null>(null);
     const [isLogin, setIsLogin] = useState<boolean>(false);
     const router = useRouter();
 
@@ -14,17 +15,19 @@ export default function Home() {
         const fetchUser = async () => {
             try {
                 const data = userInfo();
-                if(data){
+                if (data) {
                     setUser(data);
                     setIsLogin(true);
+                } else {
+                    setIsLogin(false);
                 }
             } catch (error) {
-                router.push('/login');
+                setIsLogin(false);
             }
         };
 
         fetchUser().then();
-    }, [user, userInfo]);
+    }, [userInfo]);
 
     if (isLogin) {
         return (

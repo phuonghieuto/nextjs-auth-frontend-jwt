@@ -2,28 +2,33 @@
 import {useAuth} from "@/app/context/AuthContext";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
+import {getUser} from "@/api/api";
+import {User} from "@/type/user.type";
 
 export default function Profile() {
-    const {userInfo} = useAuth();
-    const [user, setUser] = useState(userInfo());
+    const { userInfo } = useAuth();
+    const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const data = userInfo();
-                if (data) {
-                    setUser(data);
-                } else {
+                const userData = await getUser();
+                setUser(userData);
+            } catch (error) {
+                if (!userInfo()) {
                     router.push('/login');
                 }
-            } catch (error) {
-                router.push('/login');
             }
         };
 
-        fetchUser().then();
-    }, [user, userInfo]);
+        if (!userInfo()) {
+            router.push('/login');
+        } else {
+            fetchUser().then();
+        }
+    }, [router, userInfo]);
+
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
