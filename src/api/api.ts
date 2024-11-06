@@ -44,7 +44,7 @@ async function handleTokenRefresh(): Promise<void> {
 async function handleRetryGetUser(): Promise<User> {
     try {
         await handleTokenRefresh();
-        const retryResponse = await apiClient.get<User>('/user');
+        const retryResponse = await apiClient.get<User>('/profile');
         return retryResponse.data;
     } catch {
         Cookies.remove('accessToken');
@@ -55,7 +55,7 @@ async function handleRetryGetUser(): Promise<User> {
 
 export async function getUser(): Promise<User> {
     try {
-        const response = await apiClient.get<User>('/user');
+        const response = await apiClient.get<User>('/profile');
         return response.data;
     } catch (error: any) {
         if (error.response?.status === 401) {

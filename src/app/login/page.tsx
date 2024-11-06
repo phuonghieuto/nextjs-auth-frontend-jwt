@@ -64,8 +64,8 @@ export default function Login() {
         setLoading(true);
         try {
             const response = await loginUser(email, password);
-            if (response.accessToken != null && response.refreshToken != null) {
-                login(response.accessToken, response.refreshToken);
+            if (response != null) {
+                login(response);
             }
         } catch (error: any) {
             setErrors({ ...errors, general: error.message || 'Login failed. Please try again.' });

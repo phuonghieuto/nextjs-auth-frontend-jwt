@@ -1,7 +1,10 @@
 import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import {AuthProvider} from "./context/AuthContext";
+import {AuthProvider, useAuth} from "./context/AuthContext";
+import { useRouter } from "next/navigation";
+import {router} from "next/client";
+import Navbar from "@/components/Navbar";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -30,8 +33,8 @@ export default function RootLayout({
             className = {`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
         <AuthProvider>
+            <Navbar/>
             <div className = "flex items-center justify-center min-h-screen min-w-full">
-
                 {children}
             </div>
         </AuthProvider>
